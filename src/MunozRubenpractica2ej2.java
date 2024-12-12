@@ -45,4 +45,24 @@ class Event {
         this.priority = priority;
         this.tasks = new ArrayList<>();
     }
+    // Metodo para agregar una tarea
+    public void addTask(EventTask task){
+        tasks.add(task);
+    }
+    // Metodo para mostrar detalles del evento
+    public String toString(){
+        int completedTasks = (int) tasks.stream().filter(EventTask::isCompleted).count();
+        return "Evento: " + title + "\nFecha: " + date + "\nPrioridad: " + priority +
+                "\nTareas completadas: " + completedTasks + "/" + tasks.size();
+    }
+    // Getter para el título
+    public String getTitle() {
+        return title;
+    }
+
+    // USO DE METODO para conseguir lista de tareas
+    public ArrayList<EventTask> getTasks() {
+        return tasks;
+    }
 }
+
