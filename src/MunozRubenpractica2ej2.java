@@ -1,8 +1,7 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 // Enumeración para la prioridad de los eventos
 enum Priority {
     HIGH, MEDIUM, LOW;
@@ -18,20 +17,23 @@ class EventTask {
         this.isCompleted = false;
     }
 
-    // Uso de metodo para marcar como completada
+    // Marcar la tarea como completada
     public void markAsCompleted() {
         this.isCompleted = true;
     }
+
+    // Desmarcar la tarea como completada
     public void markAsIncomplete() {
         this.isCompleted = false;
     }
 
-    // Uso otro metodo para enseñar el estado de la tarea
+    //  toString para mostrar detalles de la tarea
 
     public String toString() {
         return "Tarea: " + text + " - " + (isCompleted ? "Completada" : "No completada");
     }
 }
+
 // Clase que representa un evento
 class Event {
     private String title;
@@ -45,24 +47,61 @@ class Event {
         this.priority = priority;
         this.tasks = new ArrayList<>();
     }
-    // Metodo para agregar una tarea
-    public void addTask(EventTask task){
+
+    //  agregar una tarea al evento
+    public void addTask(EventTask task) {
         tasks.add(task);
     }
-    // Metodo para mostrar detalles del evento
-    public String toString(){
+
+    //  toString para mostrar los detalles del evento
+
+    public String toString() {
         int completedTasks = (int) tasks.stream().filter(EventTask::isCompleted).count();
         return "Evento: " + title + "\nFecha: " + date + "\nPrioridad: " + priority +
-                "\nTareas completadas: " + completedTasks + "/" + tasks.size();
+                "\nTareas: " + completedTasks + "/" + tasks.size();
     }
+
     // Getter para el título
     public String getTitle() {
         return title;
     }
 
-    // USO DE METODO para conseguir lista de tareas
+    //  para obtener la lista de tareas
     public ArrayList<EventTask> getTasks() {
         return tasks;
+    }
+
+
+// Clase principal con el menú de la aplicación
+public class Main {
+    private static ArrayList<Event> events = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            showMenu();
+            String option = scanner.nextLine();
+            switch (option) {
+                case "1":
+                    addEvent(scanner);
+                    break;
+                case "2":
+                    deleteEvent(scanner);
+                    break;
+                case "3":
+                    listEvents();
+                    break;
+                case "4":
+                    markTaskCompleted(scanner);
+                    break;
+                case "5":
+                    System.out.println("¡Hasta luego!");
+                    return;
+                default:
+                    System.out.println("Opción no válida, por favor intente nuevamente.");
+            }
+        }
     }
 }
 
