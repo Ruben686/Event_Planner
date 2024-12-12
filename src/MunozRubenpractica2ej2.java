@@ -72,36 +72,45 @@ class Event {
     }
 
 
-// Clase principal con el menú de la aplicación
-public class Main {
-    private static ArrayList<Event> events = new ArrayList<>();
+    // Clase principal con el menú de la aplicación
+    public class Main {
+        private static ArrayList<Event> events = new ArrayList<>();
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            showMenu();
-            String option = scanner.nextLine();
-            switch (option) {
-                case "1":
-                    addEvent(scanner);
-                    break;
-                case "2":
-                    deleteEvent(scanner);
-                    break;
-                case "3":
-                    listEvents();
-                    break;
-                case "4":
-                    markTaskCompleted(scanner);
-                    break;
-                case "5":
-                    System.out.println("¡Hasta luego!");
-                    return;
-                default:
-                    System.out.println("Opción no válida, por favor intente nuevamente.");
+            while (true) {
+                showMenu();
+                String option = scanner.nextLine();
+                switch (option) {
+                    case "1":
+                        addEvent(scanner);
+                        break;
+                    case "2":
+                        deleteEvent(scanner);
+                        break;
+                    case "3":
+                        listEvents();
+                        break;
+                    case "4":
+                        markTaskCompleted(scanner);
+                        break;
+                    case "5":
+                        System.out.println("¡Hasta luego!");
+                        return;
+                    default:
+                        System.out.println("Opción no válida, por favor intente nuevamente.");
+                }
             }
         }
     }
 }
-
+        // Mostrar el menú
+        private static void showMenu() {
+            System.out.println("Bienvenido a Event Planner. Seleccione una opción:");
+            System.out.println("[1] Añadir evento");
+            System.out.println("[2] Borrar evento");
+            System.out.println("[3] Listar eventos");
+            System.out.println("[4] Marcar/desmarcar tarea de un evento como completada");
+            System.out.println("[5] Salir");
+        }
