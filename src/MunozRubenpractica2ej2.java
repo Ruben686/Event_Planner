@@ -17,12 +17,12 @@ class EventTask {
         this.isCompleted = false;
     }
 
-    // Marcar la tarea como completada
+    //  marcar la tarea como completada
     public void markAsCompleted() {
         this.isCompleted = true;
     }
 
-    // Desmarcar la tarea como completada
+    //  desmarcar la tarea como completada
     public void markAsIncomplete() {
         this.isCompleted = false;
     }
@@ -48,7 +48,7 @@ class Event {
         this.tasks = new ArrayList<>();
     }
 
-    //  agregar una tarea al evento
+    //  para agregar una tarea al evento
     public void addTask(EventTask task) {
         tasks.add(task);
     }
@@ -66,104 +66,104 @@ class Event {
         return title;
     }
 
-    //  para obtener la lista de tareas
+    //  obtener la lista de tareas
     public ArrayList<EventTask> getTasks() {
         return tasks;
     }
+}
 
+// Clase principal con el menú de la aplicación
+public class Main {
+    private static ArrayList<Event> events = new ArrayList<>();
 
-    // Clase principal con el menú de la aplicación
-    public class Main {
-        private static ArrayList<Event> events = new ArrayList<>();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        public static void main(String[] args) {
-            Scanner scanner = new Scanner(System.in);
-
-            while (true) {
-                showMenu();
-                String option = scanner.nextLine();
-                switch (option) {
-                    case "1":
-                        addEvent(scanner);
-                        break;
-                    case "2":
-                        deleteEvent(scanner);
-                        break;
-                    case "3":
-                        listEvents();
-                        break;
-                    case "4":
-                        markTaskCompleted(scanner);
-                        break;
-                    case "5":
-                        System.out.println("¡Hasta luego!");
-                        return;
-                    default:
-                        System.out.println("Opción no válida, por favor intente nuevamente.");
-                }
+        while (true) {
+            showMenu();
+            String option = scanner.nextLine();
+            switch (option) {
+                case "1":
+                    addEvent(scanner);
+                    break;
+                case "2":
+                    deleteEvent(scanner);
+                    break;
+                case "3":
+                    listEvents();
+                    break;
+                case "4":
+                    markTaskCompleted(scanner);
+                    break;
+                case "5":
+                    System.out.println("¡Hasta luego!");
+                    return;
+                default:
+                    System.out.println("Opción no válida, por favor intente nuevamente.");
             }
         }
     }
-}
-// Mostrar el menú
-private static void showMenu() {
-    System.out.println("Bienvenido a Event Planner. Seleccione una opción:");
-    System.out.println("[1] Añadir evento");
-    System.out.println("[2] Borrar evento");
-    System.out.println("[3] Listar eventos");
-    System.out.println("[4] Marcar/desmarcar tarea de un evento como completada");
-    System.out.println("[5] Salir");
-}
-// Añadir un evento
-private static void addEvent(Scanner scanner) {
-    System.out.println("Ingrese el título del evento:");
-    String title = scanner.nextLine();
 
-    System.out.println("Ingrese la fecha del evento (año, mes, día):");
-            int year = Integer.parseInt(scanner.nextLine());
-            int month = Integer.parseInt(scanner.nextLine());
-            int day = Integer.parseInt(scanner.nextLine());
-            LocalDate date = LocalDate.of(year, month, day);
+    // Mostrar el menú
+    private static void showMenu() {
+        System.out.println("Bienvenido a Event Planner. Seleccione una opción:");
+        System.out.println("[1] Añadir evento");
+        System.out.println("[2] Borrar evento");
+        System.out.println("[3] Listar eventos");
+        System.out.println("[4] Marcar/desmarcar tarea de un evento como completada");
+        System.out.println("[5] Salir");
+    }
 
-            System.out.println("Ingrese la prioridad (HIGH, MEDIUM, LOW):");
-            Priority priority = Priority.valueOf(scanner.nextLine().toUpperCase());
+    // Añadir un evento
+    private static void addEvent(Scanner scanner) {
+        System.out.println("Ingrese el título del evento:");
+        String title = scanner.nextLine();
 
-            Event event = new Event(title, date, priority);
+        System.out.println("Ingrese la fecha del evento (año, mes, día):");
+        int year = Integer.parseInt(scanner.nextLine());
+        int month = Integer.parseInt(scanner.nextLine());
+        int day = Integer.parseInt(scanner.nextLine());
+        LocalDate date = LocalDate.of(year, month, day);
 
-            while (true) {
-                System.out.println("¿Desea agregar una tarea a este evento? (sí/no):");
-                String addTask = scanner.nextLine();
-                if (addTask.equalsIgnoreCase("sí")) {
-                    System.out.println("Ingrese la descripción de la tarea:");
-                    String taskDescription = scanner.nextLine();
-                    EventTask task = new EventTask(taskDescription);
-                    event.addTask(task);
-                } else {
-                    break;
-                }
-            }
+        System.out.println("Ingrese la prioridad (HIGH, MEDIUM, LOW):");
+        Priority priority = Priority.valueOf(scanner.nextLine().toUpperCase());
 
-            events.add(event);
-            System.out.println("Evento añadido con éxito.");
-        }
-        // Borrar un evento
-        private static void deleteEvent(Scanner scanner) {
-            System.out.println("Ingrese el título del evento a borrar:");
-            String title = scanner.nextLine();
+        Event event = new Event(title, date, priority);
 
-            Event eventToDelete = null;
-            for (Event event : events) {
-                if (event.getTitle().equals(title)) {
-                    eventToDelete = event;
-                    break;
-                }
-            }
-
-            if (eventToDelete != null) {
-                events.remove(eventToDelete);
-                System.out.println("Evento borrado con éxito.");
+        while (true) {
+            System.out.println("¿Desea agregar una tarea a este evento? (sí/no):");
+            String addTask = scanner.nextLine();
+            if (addTask.equalsIgnoreCase("sí")) {
+                System.out.println("Ingrese la descripción de la tarea:");
+                String taskDescription = scanner.nextLine();
+                EventTask task = new EventTask(taskDescription);
+                event.addTask(task);
             } else {
-                System.out.println("No se encontró un evento con ese título.");
+                break;
             }
         }
 
+        events.add(event);
+        System.out.println("Evento añadido con éxito.");
+    }
+
+    // Borrar un evento
+    private static void deleteEvent(Scanner scanner) {
+        System.out.println("Ingrese el título del evento a borrar:");
+        String title = scanner.nextLine();
+
+        Event eventToDelete = null;
+        for (Event event : events) {
+            if (event.getTitle().equals(title)) {
+                eventToDelete = event;
+                break;
+            }
+        }
+
+        if (eventToDelete != null) {
+            events.remove(eventToDelete);
+            System.out.println("Evento borrado con éxito.");
+        } else {
+            System.out.println("No se encontró un evento con ese título.");
+        }
+    }
