@@ -167,3 +167,13 @@ public class Main {
             System.out.println("No se encontró un evento con ese título.");
         }
     }
+    // Listar los eventos
+    private static void listEvents() {
+        if (events.isEmpty()) {
+            System.out.println("No hay eventos registrados.");
+        } else {
+            for (Event event : events) {
+                System.out.println(event);
+            }
+        }
+    }
