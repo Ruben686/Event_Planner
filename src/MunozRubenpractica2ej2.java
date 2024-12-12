@@ -17,20 +17,24 @@ class EventTask {
         this.isCompleted = false;
     }
 
-    //  marcar la tarea como completada
+    // Uso metodo para marcar la tarea como completada
     public void markAsCompleted() {
         this.isCompleted = true;
     }
 
-    //  desmarcar la tarea como completada
+    // Uso metodo para desmarcar la tarea como completada
     public void markAsIncomplete() {
         this.isCompleted = false;
     }
 
-    //  toString para mostrar detalles de la tarea
+    // Uso metodo toString para mostrar detalles de la tarea
 
     public String toString() {
         return "Tarea: " + text + " - " + (isCompleted ? "Completada" : "No completada");
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
     }
 }
 
@@ -48,12 +52,12 @@ class Event {
         this.tasks = new ArrayList<>();
     }
 
-    //  para agregar una tarea al evento
+    // Uso metodo para agregar una tarea al evento
     public void addTask(EventTask task) {
         tasks.add(task);
     }
 
-    //  toString para mostrar los detalles del evento
+    // Uso Metodo toString para mostrar los detalles del evento
 
     public String toString() {
         int completedTasks = (int) tasks.stream().filter(EventTask::isCompleted).count();
@@ -66,14 +70,14 @@ class Event {
         return title;
     }
 
-    //  obtener la lista de tareas
+    // Uso metodo para obtener la lista de tareas
     public ArrayList<EventTask> getTasks() {
         return tasks;
     }
 }
 
 // Clase principal con el menú de la aplicación
-public class Main {
+public class MunozRubenpractica2ej2 {
     private static ArrayList<Event> events = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -106,7 +110,7 @@ public class Main {
 
     // Mostrar el menú
     private static void showMenu() {
-        System.out.println("Bienvenido a Event Planner. Seleccione una opción:");
+        System.out.println("\nBienvenido a Event Planner. Seleccione una opción:");
         System.out.println("[1] Añadir evento");
         System.out.println("[2] Borrar evento");
         System.out.println("[3] Listar eventos");
@@ -119,14 +123,32 @@ public class Main {
         System.out.println("Ingrese el título del evento:");
         String title = scanner.nextLine();
 
-        System.out.println("Ingrese la fecha del evento (año, mes, día):");
-        int year = Integer.parseInt(scanner.nextLine());
-        int month = Integer.parseInt(scanner.nextLine());
-        int day = Integer.parseInt(scanner.nextLine());
-        LocalDate date = LocalDate.of(year, month, day);
+        LocalDate date = null;
+        while (date == null) {
+            try {
+                System.out.println("Ingrese la fecha del evento en formato DD/MM/YYYY:");
+                String dateInput = scanner.nextLine();
+                String[] dateParts = dateInput.split("/"); // Dividimos la fecha en día, mes y año
+                int day = Integer.parseInt(dateParts[0]);
+                int month = Integer.parseInt(dateParts[1]);
+                int year = Integer.parseInt(dateParts[2]);
+
+                // Intentamos crear la fecha
+                date = LocalDate.of(year, month, day);
+            } catch (Exception e) {
+                System.out.println("Fecha no válida. Por favor, asegúrese de usar el formato DD/MM/YYYY e intente nuevamente.");
+            }
+        }
 
         System.out.println("Ingrese la prioridad (HIGH, MEDIUM, LOW):");
-        Priority priority = Priority.valueOf(scanner.nextLine().toUpperCase());
+        Priority priority = null;
+        while (priority == null) {
+            try {
+                priority = Priority.valueOf(scanner.nextLine().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Prioridad no válida. Por favor, ingrese HIGH, MEDIUM o LOW.");
+            }
+        }
 
         Event event = new Event(title, date, priority);
 
@@ -167,6 +189,7 @@ public class Main {
             System.out.println("No se encontró un evento con ese título.");
         }
     }
+
     // Listar los eventos
     private static void listEvents() {
         if (events.isEmpty()) {
@@ -177,3 +200,45 @@ public class Main {
             }
         }
     }
+
+    // Marcar o desmarcar tarea como completada
+    private static void markTaskCompleted(Scanner scanner) {
+        System.out.println("Ingrese el título del evento sobre el que desea interactuar:");
+        String title = scanner.nextLine();
+
+        Event event = null;
+        for (Event e : events) {
+            if (e.getTitle().equals(title)) {
+                event = e;
+                break;
+            }
+        }
+
+        if (event != null) {
+            System.out.println("Seleccione la tarea que desea marcar como completada:");
+            for (int i = 0; i < event.getTasks().size(); i++) {
+                System.out.println((i + 1) + ". " + event.getTasks().get(i));
+            }
+
+            try {
+                int taskNumber = Integer.parseInt(scanner.nextLine()) - 1;
+                if (taskNumber >= 0 && taskNumber < event.getTasks().size()) {
+                    EventTask task = event.getTasks().get(taskNumber);
+                    if (task.isCompleted()) {
+                        task.markAsIncomplete();
+                        System.out.println("Tarea desmarcada como completada.");
+                    } else {
+                        task.markAsCompleted();
+                        System.out.println("Tarea marcada como completada.");
+                    }
+                } else {
+                    System.out.println("Número de tarea no válido.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Debe ser un número.");
+            }
+        } else {
+            System.out.println("Evento no encontrado.");
+        }
+    }
+}
