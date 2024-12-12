@@ -105,12 +105,46 @@ class Event {
         }
     }
 }
-        // Mostrar el menú
-        private static void showMenu() {
-            System.out.println("Bienvenido a Event Planner. Seleccione una opción:");
-            System.out.println("[1] Añadir evento");
-            System.out.println("[2] Borrar evento");
-            System.out.println("[3] Listar eventos");
-            System.out.println("[4] Marcar/desmarcar tarea de un evento como completada");
-            System.out.println("[5] Salir");
+// Mostrar el menú
+private static void showMenu() {
+    System.out.println("Bienvenido a Event Planner. Seleccione una opción:");
+    System.out.println("[1] Añadir evento");
+    System.out.println("[2] Borrar evento");
+    System.out.println("[3] Listar eventos");
+    System.out.println("[4] Marcar/desmarcar tarea de un evento como completada");
+    System.out.println("[5] Salir");
+}
+// Añadir un evento
+private static void addEvent(Scanner scanner) {
+    System.out.println("Ingrese el título del evento:");
+    String title = scanner.nextLine();
+
+    System.out.println("Ingrese la fecha del evento (año, mes, día):");
+            int year = Integer.parseInt(scanner.nextLine());
+            int month = Integer.parseInt(scanner.nextLine());
+            int day = Integer.parseInt(scanner.nextLine());
+            LocalDate date = LocalDate.of(year, month, day);
+
+            System.out.println("Ingrese la prioridad (HIGH, MEDIUM, LOW):");
+            Priority priority = Priority.valueOf(scanner.nextLine().toUpperCase());
+
+            Event event = new Event(title, date, priority);
+
+            while (true) {
+                System.out.println("¿Desea agregar una tarea a este evento? (sí/no):");
+                String addTask = scanner.nextLine();
+                if (addTask.equalsIgnoreCase("sí")) {
+                    System.out.println("Ingrese la descripción de la tarea:");
+                    String taskDescription = scanner.nextLine();
+                    EventTask task = new EventTask(taskDescription);
+                    event.addTask(task);
+                } else {
+                    break;
+                }
+            }
+
+            events.add(event);
+            System.out.println("Evento añadido con éxito.");
         }
+
+
