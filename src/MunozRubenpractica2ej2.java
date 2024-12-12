@@ -146,5 +146,24 @@ private static void addEvent(Scanner scanner) {
             events.add(event);
             System.out.println("Evento añadido con éxito.");
         }
+        // Borrar un evento
+        private static void deleteEvent(Scanner scanner) {
+            System.out.println("Ingrese el título del evento a borrar:");
+            String title = scanner.nextLine();
 
+            Event eventToDelete = null;
+            for (Event event : events) {
+                if (event.getTitle().equals(title)) {
+                    eventToDelete = event;
+                    break;
+                }
+            }
+
+            if (eventToDelete != null) {
+                events.remove(eventToDelete);
+                System.out.println("Evento borrado con éxito.");
+            } else {
+                System.out.println("No se encontró un evento con ese título.");
+            }
+        }
 
